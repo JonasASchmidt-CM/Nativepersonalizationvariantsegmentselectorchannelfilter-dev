@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, ChevronDown, ChevronUp, Square, CheckSquare, ExternalLink } from 'lucide-react';
 
-function SearchIcon({ className = '' }: { className?: string }) {
+function SearchIcon({ className = '', color = '#3F3F3F' }: { className?: string; color?: string }) {
   return (
     <svg viewBox="0 0 17.49 17.49" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path
         d="M12.5 11H11.71L11.43 10.73C12.41 9.59 13 8.11 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C8.11 13 9.59 12.41 10.73 11.43L11 11.71V12.5L16 17.49L17.49 16L12.5 11ZM6.5 11C4.01 11 2 8.99 2 6.5C2 4.01 4.01 2 6.5 2C8.99 2 11 4.01 11 6.5C11 8.99 8.99 11 6.5 11Z"
-        fill="#3F3F3F"
+        fill={color}
       />
     </svg>
   );
@@ -136,7 +136,7 @@ function highlight(text: string, query: string): React.ReactNode {
   const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
   return parts.map((part, i) =>
     part.toLowerCase() === query.toLowerCase()
-      ? <mark key={i} style={{ backgroundColor: '#ffff00', color: 'inherit', borderRadius: 2 }}>{part}</mark>
+      ? <mark key={i} style={{ backgroundColor: '#ffff00', color: '#000000', padding: 0, margin: 0, borderRadius: 0, fontStyle: 'inherit', fontWeight: 'inherit', fontSize: 'inherit', lineHeight: 'inherit' }}>{part}</mark>
       : part
   );
 }
@@ -164,7 +164,7 @@ function SegmentRow({
     <button
       onMouseDown={e => e.preventDefault()}
       onClick={onToggle}
-      className="w-full text-left px-[8px] py-[6px] transition-colors"
+      className="w-full text-left px-3 py-[6px] transition-colors"
       style={{
         fontFamily: "'Roboto', sans-serif",
         backgroundColor: selected ? '#c8f7f0' : undefined,
@@ -176,14 +176,14 @@ function SegmentRow({
         if (!selected) e.currentTarget.style.backgroundColor = '';
       }}
     >
-      <div className="flex flex-col gap-[4px] pl-[3px]">
+      <div className="flex flex-col gap-[4px]">
         <div className="flex items-center gap-[9px]">
           {selected
             ? <CheckSquare className="flex-shrink-0 w-5 h-5 text-[#006cae]" strokeWidth={1.5} />
             : <Square className="flex-shrink-0 w-5 h-5 text-[#868686]" strokeWidth={1.5} />
           }
           <SegmentIcon className="flex-shrink-0 w-6 h-6" />
-          <span className="text-[15px] leading-[1.5] text-[#3f3f3f] truncate">
+          <span className="text-[15px] leading-[1.5] text-[#3f3f3f] truncate whitespace-nowrap">
             {highlightMatches ? highlight(segment.name, query) : segment.name}
             {showProfileCount ? ` (${segment.profileCount})` : ''}
           </span>
@@ -202,7 +202,7 @@ function SegmentRow({
                 return (
                   <span
                     key={tagId}
-                    className="text-[12px] px-2 py-px rounded-full font-medium"
+                    className="text-[12px] px-2 py-px rounded-full font-medium whitespace-nowrap"
                     style={{
                       backgroundColor: isActive ? '#006cae' : '#e5e7eb',
                       color: isActive ? '#fff' : '#6b7280',
@@ -318,7 +318,7 @@ export default function TagFilterVariant1({
     return a.name.localeCompare(b.name);
   });
   const orderedChips = baseChips;
-  const visibleChips = tagsExpanded ? orderedChips : orderedChips.slice(0, TAG_LIMIT);
+  const visibleChips = (tagsExpanded || q !== '') ? orderedChips : orderedChips.slice(0, TAG_LIMIT);
   const hiddenChipCount = orderedChips.length - TAG_LIMIT;
   const selectedChannelCount =
     selectedTags.length + (showAllChannelsChip && allChannelsSelected ? 1 : 0);
@@ -389,7 +389,7 @@ export default function TagFilterVariant1({
         }}
       >
         {/* Search icon */}
-        <SearchIcon className="flex-shrink-0 w-[18px] h-[18px]" />
+        <SearchIcon className="flex-shrink-0 w-[18px] h-[18px]" color={query ? '#006cae' : '#3F3F3F'} />
 
         <input
           ref={inputRef}
@@ -397,7 +397,7 @@ export default function TagFilterVariant1({
           onChange={e => setQuery(e.target.value)}
           onFocus={openDropdown}
           placeholder="Search here to add segments to customize your audience for this variant ..."
-          className="flex-1 min-w-0 bg-transparent outline-none text-[15px] text-[#3f3f3f] placeholder:text-[#868686] placeholder:italic"
+          className={`flex-1 min-w-0 bg-transparent outline-none text-[15px] placeholder:text-[#868686] placeholder:italic ${query ? 'text-[#006cae]' : 'text-[#3f3f3f]'}`}
           style={{ fontFamily: "'Roboto', sans-serif" }}
         />
 
@@ -471,39 +471,39 @@ export default function TagFilterVariant1({
                       if (chip.isAll) setAllChannelsSelected(v => !v);
                       else toggleTag(chip.key);
                     }}
-                    className={`inline-flex items-center gap-1 px-[9px] py-[3px] rounded-full text-xs font-medium border-2 transition-all ${
+                    className={`inline-flex items-center gap-1 px-[9px] py-[3px] rounded-full text-xs font-medium border-2 whitespace-nowrap transition-all ${
                       chip.selected
                         ? 'text-white shadow-sm'
                         : 'bg-white text-gray-600 border-gray-200 hover:border-[#006cae] hover:text-[#006cae]'
                     }`}
                     style={chip.selected ? { backgroundColor: '#006cae', borderColor: '#006cae' } : {}}
                   >
-                    {highlightMatches ? highlight(chip.name, q) : chip.name}{showChannelCounts ? ` (${chip.count})` : ''}
+                    <span>{highlightMatches ? highlight(chip.name, q) : chip.name}</span>{showChannelCounts ? ` (${chip.count})` : ''}
                   </button>
                 ))
               ) : (
-                <span className="text-xs text-gray-400 py-0.5 italic">
-                  No tags match &ldquo;{query}&rdquo;
+                <span className="text-[14px] font-bold text-gray-400 py-0.5">
+                  No channels match &ldquo;{query}&rdquo;
                 </span>
               )}
             </div>
 
             {/* Show more / less tags */}
-            {!tagsExpanded && hiddenChipCount > 0 && (
+            {!tagsExpanded && hiddenChipCount > 0 && q === '' && (
               <button
                 onMouseDown={e => e.preventDefault()}
                 onClick={() => setTagsExpanded(true)}
-                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
+                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 transition-colors"
               >
                 Show All
                 <ChevronDown className="w-3 h-3" />
               </button>
             )}
-            {tagsExpanded && orderedChips.length > TAG_LIMIT && (
+            {tagsExpanded && orderedChips.length > TAG_LIMIT && q === '' && (
               <button
                 onMouseDown={e => e.preventDefault()}
                 onClick={() => setTagsExpanded(false)}
-                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
+                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 transition-colors"
               >
                 Show less
                 <ChevronUp className="w-3 h-3" />
@@ -513,7 +513,7 @@ export default function TagFilterVariant1({
 
           {/* ── Segments & Profiles section ── */}
           <div>
-            <div className="px-4 pt-4 pb-2 flex items-center justify-between bg-white">
+            <div className="px-3 pt-4 pb-2 flex items-center justify-between bg-white">
               <div className="flex items-center gap-1.5">
                 <span
                   className="uppercase text-[#3f3f3f]"
@@ -545,7 +545,7 @@ export default function TagFilterVariant1({
                         : Array.from(new Set([...prev, ...visibleIds]))
                     );
                   }}
-                  className="w-full text-left px-[8px] py-[6px] transition-colors"
+                  className="w-full text-left px-3 py-[6px] transition-colors"
                   style={{
                     fontFamily: "'Roboto', sans-serif",
                     backgroundColor: allSelected ? '#c8f7f0' : undefined,
@@ -557,7 +557,7 @@ export default function TagFilterVariant1({
                     if (!allSelected) e.currentTarget.style.backgroundColor = '';
                   }}
                 >
-                  <div className="flex items-center gap-[9px] pl-[3px]">
+                  <div className="flex items-center gap-[9px]">
                     {allSelected
                       ? <CheckSquare className="flex-shrink-0 w-5 h-5 text-[#006cae]" strokeWidth={1.5} />
                       : <Square className="flex-shrink-0 w-5 h-5 text-[#868686]" strokeWidth={1.5} />
@@ -595,7 +595,8 @@ export default function TagFilterVariant1({
                     <button
                       onMouseDown={e => e.preventDefault()}
                       onClick={() => { setSelectedTags([]); setQuery(''); }}
-                      className="mt-1.5 text-xs text-[#3f3f3f] hover:text-[#006cae] font-medium underline transition-colors"
+                      className="mt-1.5 uppercase text-[#868686] hover:text-[#006cae] underline transition-colors"
+                      style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: '0.06em' }}
                     >
                       Clear all filters
                     </button>
@@ -616,9 +617,9 @@ export default function TagFilterVariant1({
           {/* Manage links row */}
           <div className="flex items-center pr-[24px] pt-[2px] pb-[12px] flex-wrap">
             {[
-              { label: 'Manage Segments', pl: 14 },
-              { label: 'Manage Profiles',  pl: 16 },
-              { label: 'Manage Page Groups', pl: 16 },
+              { label: 'Manage Segments', pl: 12 },
+              { label: 'Manage Profiles',  pl: 12 },
+              { label: 'Manage Page Groups', pl: 12 },
             ].map(link => (
               <div key={link.label} className="flex items-center pb-[5px]">
                 <button
