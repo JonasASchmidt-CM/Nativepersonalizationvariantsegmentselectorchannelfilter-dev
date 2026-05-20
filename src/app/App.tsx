@@ -11,6 +11,7 @@ export default function App() {
   const [showAllChannelsChip, setShowAllChannelsChip] = useState(true);
   const [showProfileCount, setShowProfileCount] = useState(false);
   const [showChannelClearLink, setShowChannelClearLink] = useState(true);
+  const [highlightMatches, setHighlightMatches] = useState(false);
 
   return (
     <div
@@ -77,6 +78,7 @@ export default function App() {
                 showAllChannelsChip={showAllChannelsChip}
                 showProfileCount={showProfileCount}
                 showChannelClearLink={showChannelClearLink}
+                highlightMatches={highlightMatches}
               />
             </div>
           )}
@@ -97,6 +99,8 @@ export default function App() {
         onToggleShowProfileCount={() => setShowProfileCount(v => !v)}
         showChannelClearLink={showChannelClearLink}
         onToggleChannelClearLink={() => setShowChannelClearLink(v => !v)}
+        highlightMatches={highlightMatches}
+        onToggleHighlightMatches={() => setHighlightMatches(v => !v)}
       />
     </div>
   );

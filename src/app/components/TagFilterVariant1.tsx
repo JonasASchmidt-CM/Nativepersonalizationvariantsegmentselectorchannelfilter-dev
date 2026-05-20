@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X, ChevronDown, ChevronUp, Square, CheckSquare, ExternalLink } from 'lucide-react';
 
 function SearchIcon({ className = '' }: { className?: string }) {
@@ -130,6 +130,17 @@ const mockSegments: Segment[] = [
 
 const TAG_LIMIT = 8;
 
+function highlight(text: string, query: string): React.ReactNode {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase()
+      ? <mark key={i} style={{ backgroundColor: '#ffff00', color: 'inherit', borderRadius: 2 }}>{part}</mark>
+      : part
+  );
+}
+
 function SegmentRow({
   segment,
   selectedTags,
@@ -137,6 +148,8 @@ function SegmentRow({
   showProfileCount,
   selected,
   onToggle,
+  query,
+  highlightMatches,
 }: {
   segment: Segment;
   selectedTags: string[];
@@ -144,6 +157,8 @@ function SegmentRow({
   showProfileCount: boolean;
   selected: boolean;
   onToggle: () => void;
+  query: string;
+  highlightMatches: boolean;
 }) {
   return (
     <button
@@ -168,7 +183,10 @@ function SegmentRow({
             : <Square className="flex-shrink-0 w-5 h-5 text-[#868686]" strokeWidth={1.5} />
           }
           <SegmentIcon className="flex-shrink-0 w-6 h-6" />
-          <span className="text-[15px] leading-[1.5] text-[#3f3f3f] truncate">{segment.name}{showProfileCount ? ` (${segment.profileCount})` : ''}</span>
+          <span className="text-[15px] leading-[1.5] text-[#3f3f3f] truncate">
+            {highlightMatches ? highlight(segment.name, query) : segment.name}
+            {showProfileCount ? ` (${segment.profileCount})` : ''}
+          </span>
         </div>
         <div className="flex flex-wrap items-center gap-1 pl-[65px]">
           <span className="text-[12px] capitalize font-normal text-[#6b7280]">
@@ -209,6 +227,7 @@ export default function TagFilterVariant1({
   showAllChannelsChip = false,
   showProfileCount = false,
   showChannelClearLink = true,
+  highlightMatches = false,
 }: {
   showChannelChips?: boolean;
   stickyChannels?: boolean;
@@ -216,6 +235,7 @@ export default function TagFilterVariant1({
   showAllChannelsChip?: boolean;
   showProfileCount?: boolean;
   showChannelClearLink?: boolean;
+  highlightMatches?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -400,14 +420,14 @@ export default function TagFilterVariant1({
       {/* Dropdown drawer */}
       {isOpen && (
         <div
-          className="absolute z-50 left-0 right-0 top-full bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col overflow-hidden"
-          style={{ maxHeight: DROPDOWN_HEIGHT, marginTop: 4 }}
+          className="absolute z-50 left-0 right-0 top-full bg-white border border-gray-200 rounded-b-lg shadow-xl flex flex-col overflow-hidden"
+          style={{ maxHeight: DROPDOWN_HEIGHT, marginTop: 0 }}
         >
         <div className="flex-1 min-h-0 overflow-y-auto">
 
           {/* ── Tags section ── */}
           <div
-            className={`p-3 bg-white ${stickyChannels ? 'sticky top-0 z-10 border-b border-gray-100' : ''}`}
+            className={`px-3 pt-5 pb-3 bg-white border-b border-gray-200 ${stickyChannels ? 'sticky top-0 z-10' : ''}`}
           >
             <div className="flex items-center mb-2.5 gap-2 flex-wrap">
               <div className="flex items-center gap-1.5">
@@ -451,10 +471,10 @@ export default function TagFilterVariant1({
                       if (chip.isAll) setAllChannelsSelected(v => !v);
                       else toggleTag(chip.key);
                     }}
-                    className={`inline-flex items-center gap-1 px-[9px] py-[3px] rounded-full text-xs font-medium border transition-all ${
+                    className={`inline-flex items-center gap-1 px-[9px] py-[3px] rounded-full text-xs font-medium border-2 transition-all ${
                       chip.selected
-                        ? 'text-white border-transparent shadow-sm'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
+                        ? 'text-white shadow-sm'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#006cae] hover:text-[#006cae]'
                     }`}
                     style={chip.selected ? { backgroundColor: '#006cae', borderColor: '#006cae' } : {}}
                   >
@@ -473,7 +493,7 @@ export default function TagFilterVariant1({
               <button
                 onMouseDown={e => e.preventDefault()}
                 onClick={() => setTagsExpanded(true)}
-                className="mt-2.5 text-xs text-[#3f3f3f] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
+                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
               >
                 Show All
                 <ChevronDown className="w-3 h-3" />
@@ -483,7 +503,7 @@ export default function TagFilterVariant1({
               <button
                 onMouseDown={e => e.preventDefault()}
                 onClick={() => setTagsExpanded(false)}
-                className="mt-2.5 text-xs text-[#3f3f3f] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
+                className="mt-2.5 text-xs text-[#868686] hover:text-[#006cae] font-medium flex items-center gap-1 underline transition-colors"
               >
                 Show less
                 <ChevronUp className="w-3 h-3" />
@@ -493,7 +513,7 @@ export default function TagFilterVariant1({
 
           {/* ── Segments & Profiles section ── */}
           <div>
-            <div className="px-4 py-2 flex items-center justify-between bg-white">
+            <div className="px-4 pt-4 pb-2 flex items-center justify-between bg-white">
               <div className="flex items-center gap-1.5">
                 <span
                   className="uppercase text-[#3f3f3f]"
@@ -557,6 +577,8 @@ export default function TagFilterVariant1({
                     showChannelChips={showChannelChips}
                     showProfileCount={showProfileCount}
                     selected={selectedSegments.includes(segment.id)}
+                    query={q}
+                    highlightMatches={highlightMatches}
                     onToggle={() => {
                       setSelectedSegments(prev =>
                         prev.includes(segment.id)

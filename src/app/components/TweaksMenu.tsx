@@ -14,6 +14,8 @@ interface TweaksMenuProps {
   onToggleShowProfileCount: () => void;
   showChannelClearLink: boolean;
   onToggleChannelClearLink: () => void;
+  highlightMatches: boolean;
+  onToggleHighlightMatches: () => void;
 }
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void }) {
@@ -47,6 +49,8 @@ export default function TweaksMenu({
   onToggleShowProfileCount,
   showChannelClearLink,
   onToggleChannelClearLink,
+  highlightMatches,
+  onToggleHighlightMatches,
 }: TweaksMenuProps) {
   const [expanded, setExpanded] = useState(false);
   return (
@@ -115,12 +119,20 @@ export default function TweaksMenu({
         <Toggle checked={showProfileCount} onChange={onToggleShowProfileCount} />
       </div>
 
-      <div className="px-4 py-3 flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-sm text-[#3f3f3f]">Show Channel Filter Clear Link</p>
-          <p className="text-xs text-gray-400 mt-0.5">Show the “Clear N selected” shortcut next to the channel filter heading</p>
+      <div className=”px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100”>
+        <div className=”min-w-0”>
+          <p className=”text-sm text-[#3f3f3f]”>Show Channel Filter Clear Link</p>
+          <p className=”text-xs text-gray-400 mt-0.5”>Show the “Clear N selected” shortcut next to the channel filter heading</p>
         </div>
         <Toggle checked={showChannelClearLink} onChange={onToggleChannelClearLink} />
+      </div>
+
+      <div className=”px-4 py-3 flex items-center justify-between gap-3”>
+        <div className=”min-w-0”>
+          <p className=”text-sm text-[#3f3f3f]”>Highlight search matches</p>
+          <p className=”text-xs text-gray-400 mt-0.5”>Mark matched query text in segment names with a neon yellow background</p>
+        </div>
+        <Toggle checked={highlightMatches} onChange={onToggleHighlightMatches} />
       </div>
       </div>
       )}
