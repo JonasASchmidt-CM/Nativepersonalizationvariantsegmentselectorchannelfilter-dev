@@ -202,13 +202,13 @@ function SegmentRow({
                 return (
                   <span
                     key={tagId}
-                    className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
+                    className="text-[12px] px-2 py-px rounded-full font-medium"
                     style={{
                       backgroundColor: isActive ? '#006cae' : '#e5e7eb',
                       color: isActive ? '#fff' : '#6b7280',
                     }}
                   >
-                    {tag.name}
+                    {highlightMatches ? highlight(tag.name, query) : tag.name}
                   </span>
                 );
               })}
@@ -478,7 +478,7 @@ export default function TagFilterVariant1({
                     }`}
                     style={chip.selected ? { backgroundColor: '#006cae', borderColor: '#006cae' } : {}}
                   >
-                    {chip.name}{showChannelCounts ? ` (${chip.count})` : ''}
+                    {highlightMatches ? highlight(chip.name, q) : chip.name}{showChannelCounts ? ` (${chip.count})` : ''}
                   </button>
                 ))
               ) : (
@@ -614,7 +614,7 @@ export default function TagFilterVariant1({
             <div className="bg-[#e7e7e7] flex-1 h-px" />
           </div>
           {/* Manage links row */}
-          <div className="flex items-center pr-[24px] py-[2px] flex-wrap">
+          <div className="flex items-center pr-[24px] pt-[2px] pb-[12px] flex-wrap">
             {[
               { label: 'Manage Segments', pl: 14 },
               { label: 'Manage Profiles',  pl: 16 },

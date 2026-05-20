@@ -90,7 +90,7 @@ export default function TweaksMenu({
       <div className="px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100">
         <div className="min-w-0">
           <p className="text-sm text-[#3f3f3f]">Sticky channel filter</p>
-          <p className="text-xs text-gray-400 mt-0.5">Pin “Filter by Channels” to the top while scrolling the dropdown</p>
+          <p className="text-xs text-gray-400 mt-0.5">Pin &quot;Filter by Channels&quot; to the top while scrolling the dropdown</p>
         </div>
         <Toggle checked={stickyChannels} onChange={onToggleStickyChannels} />
       </div>
@@ -105,7 +105,7 @@ export default function TweaksMenu({
 
       <div className="px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100">
         <div className="min-w-0">
-          <p className="text-sm text-[#3f3f3f]">Show “All Channels” channel</p>
+          <p className="text-sm text-[#3f3f3f]">Show &quot;All Channels&quot; channel</p>
           <p className="text-xs text-gray-400 mt-0.5">Include the global, site-wide meta-channel in the filter list</p>
         </div>
         <Toggle checked={showAllChannelsChip} onChange={onToggleAllChannelsChip} />
@@ -114,23 +114,23 @@ export default function TweaksMenu({
       <div className="px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100">
         <div className="min-w-0">
           <p className="text-sm text-[#3f3f3f]">Show user count suffix on segment names</p>
-          <p className="text-xs text-gray-400 mt-0.5">Append the trailing “(N)” profile count after each segment name</p>
+          <p className="text-xs text-gray-400 mt-0.5">Append the trailing &quot;(N)&quot; profile count after each segment name</p>
         </div>
         <Toggle checked={showProfileCount} onChange={onToggleShowProfileCount} />
       </div>
 
-      <div className=”px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100”>
-        <div className=”min-w-0”>
-          <p className=”text-sm text-[#3f3f3f]”>Show Channel Filter Clear Link</p>
-          <p className=”text-xs text-gray-400 mt-0.5”>Show the “Clear N selected” shortcut next to the channel filter heading</p>
+      <div className="px-4 py-3 flex items-center justify-between gap-3 border-b border-gray-100">
+        <div className="min-w-0">
+          <p className="text-sm text-[#3f3f3f]">Show Channel Filter Clear Link</p>
+          <p className="text-xs text-gray-400 mt-0.5">Show the &quot;Clear N selected&quot; shortcut next to the channel filter heading</p>
         </div>
         <Toggle checked={showChannelClearLink} onChange={onToggleChannelClearLink} />
       </div>
 
-      <div className=”px-4 py-3 flex items-center justify-between gap-3”>
-        <div className=”min-w-0”>
-          <p className=”text-sm text-[#3f3f3f]”>Highlight search matches</p>
-          <p className=”text-xs text-gray-400 mt-0.5”>Mark matched query text in segment names with a neon yellow background</p>
+      <div className="px-4 py-3 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm text-[#3f3f3f]">Highlight search matches</p>
+          <p className="text-xs text-gray-400 mt-0.5">Mark matched query text in segment names with a neon yellow background</p>
         </div>
         <Toggle checked={highlightMatches} onChange={onToggleHighlightMatches} />
       </div>
