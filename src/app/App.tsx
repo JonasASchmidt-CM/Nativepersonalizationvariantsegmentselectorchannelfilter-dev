@@ -103,9 +103,14 @@ export default function App() {
         onToggleHighlightMatches={() => setHighlightMatches(v => !v)}
       />
 
-      <p className="fixed bottom-3 left-4 text-[11px] text-white/40 select-none font-mono">
+      <a
+        href={`https://github.com/JonasASchmidt-CM/Nativepersonalizationvariantsegmentselectorchannelfilter-dev/commit/${__COMMIT_HASH__}`}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-3 left-4 text-[11px] text-white/40 hover:text-white/70 font-mono transition-colors"
+      >
         {__COMMIT_HASH__}
-      </p>
+      </a>
     </div>
   );
 }
