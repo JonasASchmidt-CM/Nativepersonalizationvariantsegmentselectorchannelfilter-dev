@@ -19,6 +19,10 @@ All notable changes to this project are documented here.
 - `.gitignore` — covers `node_modules/`, build output (`dist/`), `.env` secrets, editor/OS noise, and TypeScript build info.
 - `CLAUDE.md` — project context file for Claude Code.
 
+### Added
+- **Commit hash version badge** — the short git commit hash is injected at build time and displayed fixed to the bottom-left of the screen in small monospace text, making it easy to verify the deployed version against the local working copy (`git rev-parse --short HEAD`).
+- `CHANGELOG.md` and updated `README.md` — README now describes the prototype's purpose, features, TweaksMenu flags, dev commands, and links to the live deployment and changelog.
+
 ### Chore
 - Fixed git remote configuration: renamed `origin` → `figma-make` (read-only Figma Make source) and `dev` → `origin` (the `-dev` working repo), so `git push` always targets the correct repository.
 
