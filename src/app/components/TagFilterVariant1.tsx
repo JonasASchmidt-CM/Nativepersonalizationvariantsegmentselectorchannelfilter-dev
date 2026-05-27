@@ -267,10 +267,10 @@ export default function TagFilterVariant1({
   // Note: input focus is handled explicitly in openDropdown to avoid
   // hijacking focus on HMR/fast-refresh re-renders.
 
-  // Reset expansion state when query changes
+  // Reset expansion state when query changes or dropdown closes
   useEffect(() => {
     setTagsExpanded(false);
-  }, [query]);
+  }, [query, isOpen]);
 
   const q = query.trim().toLowerCase();
 
@@ -533,8 +533,7 @@ export default function TagFilterVariant1({
             </div>
 
             <div>
-              {/* "All" row — hidden when fewer than 4 channels are available */}
-              {visibleSegments.length > 0 && sortedTags.length >= 4 && (
+              {visibleSegments.length > 2 && (
                 <button
                   onMouseDown={e => e.preventDefault()}
                   onClick={() => {

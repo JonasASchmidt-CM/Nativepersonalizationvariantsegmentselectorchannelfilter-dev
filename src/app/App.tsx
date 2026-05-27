@@ -59,9 +59,8 @@ export default function App() {
             </button>
           </div>
 
-          {/* Panel body */}
-          {panelOpen && (
-            <div className="px-6 pb-6 pt-0">
+          {/* Panel body — kept mounted to preserve selection state */}
+          <div className="px-6 pb-6 pt-0" style={{ display: panelOpen ? undefined : 'none' }}>
               {/* Field label */}
               <p
                 className="uppercase text-[#3f3f3f] mb-2"
@@ -80,8 +79,7 @@ export default function App() {
                 showChannelClearLink={showChannelClearLink}
                 highlightMatches={highlightMatches}
               />
-            </div>
-          )}
+          </div>
 
         </div>
       </div>
