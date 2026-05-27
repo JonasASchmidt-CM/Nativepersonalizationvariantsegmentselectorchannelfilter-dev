@@ -452,7 +452,7 @@ export default function TagFilterVariant1({
                       setSelectedTags([]);
                       if (showAllChannelsChip) setAllChannelsSelected(false);
                     }}
-                    className="uppercase text-[#868686] hover:text-[#006cae] underline tabular-nums transition-colors ml-1"
+                    className="uppercase text-[#006cae] hover:text-[#006cae] underline tabular-nums transition-colors ml-1"
                     style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: '0.06em' }}
                   >
                     Clear {selectedChannelCount} selected

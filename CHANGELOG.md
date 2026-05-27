@@ -14,12 +14,11 @@ All notable changes to this project are documented here.
 - **Preserve selection on panel collapse** — the Segmentation panel body is now kept mounted (hidden via `display: none`) instead of unmounted, so channel filter and segment selections survive collapse/expand cycles.
 - **Reset "Show All" on dropdown close** — the expanded channel chip list now collapses back to the default view whenever the dropdown drawer is closed, not only when the search query changes.
 - **"All" segment row visibility** — the "All" row in the segment list now appears whenever more than 2 segments are visible, regardless of whether a channel filter is active. Previously it was hidden when filtering narrowed the list.
+- **"Clear X selected" link color default state** — changed from gray (`#868686`) to brand blue (`#006cae`) for better visual hierarchy and prominence.
 
 ### Added
 - `.gitignore` — covers `node_modules/`, build output (`dist/`), `.env` secrets, editor/OS noise, and TypeScript build info.
 - `CLAUDE.md` — project context file for Claude Code.
-
-### Added
 - **Commit hash version badge** — the short git commit hash is injected at build time and displayed fixed to the bottom-left of the screen in small monospace text, making it easy to verify the deployed version against the local working copy (`git rev-parse --short HEAD`).
 - `CHANGELOG.md` and updated `README.md` — README now describes the prototype's purpose, features, TweaksMenu flags, dev commands, and links to the live deployment and changelog.
 
