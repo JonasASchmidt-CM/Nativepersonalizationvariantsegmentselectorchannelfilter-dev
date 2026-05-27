@@ -3,6 +3,8 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import TagFilterVariant1 from './components/TagFilterVariant1';
 import TweaksMenu from './components/TweaksMenu';
 
+declare const __COMMIT_HASH__: string;
+
 export default function App() {
   const [panelOpen, setPanelOpen] = useState(true);
   const [showChannelChips, setShowChannelChips] = useState(false);
@@ -100,6 +102,10 @@ export default function App() {
         highlightMatches={highlightMatches}
         onToggleHighlightMatches={() => setHighlightMatches(v => !v)}
       />
+
+      <p className="fixed bottom-3 left-4 text-[11px] text-white/40 select-none font-mono">
+        {__COMMIT_HASH__}
+      </p>
     </div>
   );
 }

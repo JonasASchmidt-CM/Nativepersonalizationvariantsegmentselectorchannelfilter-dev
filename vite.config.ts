@@ -1,7 +1,13 @@
 import { defineConfig } from 'vite'
 import path from 'path'
+import { execFileSync } from 'child_process'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+
+const commitHash = (() => {
+  try { return execFileSync('git', ['rev-parse', '--short', 'HEAD']).toString().trim() }
+  catch { return 'unknown' }
+})()
 
 
 function figmaAssetResolver() {
@@ -30,6 +36,10 @@ export default defineConfig({
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },
+  },
+
+  define: {
+    __COMMIT_HASH__: JSON.stringify(commitHash),
   },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
