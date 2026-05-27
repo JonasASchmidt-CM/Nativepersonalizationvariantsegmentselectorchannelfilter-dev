@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Check whether any source files were modified this turn by running: git diff HEAD -- . ':(exclude)CHANGELOG.md' ':(exclude)README.md' ':(exclude).claude/' and also git diff --cached -- . ':(exclude)CHANGELOG.md' ':(exclude)README.md' ':(exclude).claude/'. If there are no code or config changes (only documentation edits, or no changes at all), do nothing and exit. Otherwise, open CHANGELOG.md and add a concise entry describing what changed. If there is already a section for today's date (2026-05-27 or the actual current date), append bullet points to it. If not, prepend a new dated section above the first existing one. Keep entries short — one bullet per logical change, written in past tense (e.g. '- Fixed X', '- Added Y'). Do not add meta-commentary about the changelog itself.",
+            "timeout": 60,
+            "statusMessage": "Updating CHANGELOG …"
+          }
+        ]
+      }
+    ]
+  }
+}
