@@ -18,6 +18,18 @@
           }
         ]
       }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "The session context is about to be compacted. Quickly capture session state: (1) Check git diff HEAD and git status for uncommitted changes — add any undocumented ones to CHANGELOG.md. (2) Overwrite SESSION-NOTES.md with: today's date, a 1-line summary, a Completed section, an Open Items section (anything discussed but not done), and a Decisions section. Be concise — this runs automatically.",
+            "timeout": 90,
+            "statusMessage": "Capturing session state before compaction …"
+          }
+        ]
+      }
     ]
   }
 }

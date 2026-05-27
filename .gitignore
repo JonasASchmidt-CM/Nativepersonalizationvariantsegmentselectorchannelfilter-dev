@@ -40,3 +40,6 @@ yarn-error.log*
 
 # Claude Code local overrides (personal settings, not team-wide)
 .claude/settings.local.json
+
+# Session notes (ephemeral, regenerated each session)
+SESSION-NOTES.md
